@@ -4,7 +4,7 @@ var latestID;
 
 $(function() {
     notifications();
-    setInterval(notifications,2000);
+    setInterval(notifications,20000);
 });
 
 function notifications() {
@@ -26,11 +26,17 @@ function notifications() {
         } else if(latestID === undefined) {
             var firstRun = {
                 type : "basic",
-                title : "Twitter Notifier",
+                title : "First Run",
                 message : "You may want to check your twitter account. You have pending notifications.",
+                contextMessage : "Twitter Notifier",
+                buttons : [{
+                    title : "Open Twitter"
+                }],
                 iconUrl : "icon.png"
             };
-
+            chrome.notifications.onButtonClicked.addListener(function() {
+                window.open("https://twitter.com/i/notifications");
+            })
             chrome.notifications.create(firstRun);
             latestID = ids[0];
 
@@ -46,7 +52,6 @@ function notifications() {
             }
             latestID = ids[0];
         }
-        console.log(newTweets);
         if(newTweets.length == 0) {
 
         } else {
@@ -54,17 +59,23 @@ function notifications() {
                 var tweet = newTweets[i];
                 var myTweet = {
                     type : "basic",
-                    title : "Twitter Notifier! New notification",
+                    title : "You got a New Twitter Notification",
                     message : tweet ,
+                    contextMessage : "Twitter Notifier",
+                    buttons : [{
+                        title : "Open Twitter"
+                    }],
                     iconUrl : "icon.png"
                 };
-
+                chrome.notifications.onButtonClicked.addListener(function() {
+                    window.open("https://twitter.com/i/notifications");
+                });
                 chrome.notifications.create(myTweet);
             }
         }
 
-        console.log(messages);
-        console.log(ids);
+        // console.log(messages);
+        // console.log(ids);
         // console.log(latestID);
         // console.log(newTweets);
         
