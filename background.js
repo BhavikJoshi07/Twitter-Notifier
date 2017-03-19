@@ -34,10 +34,14 @@ function notifications() {
                 }],
                 iconUrl : "icon.png"
             };
+            var notID;
+            chrome.notifications.create(firstRun, function(id) {
+                notID = id;
+            });
             chrome.notifications.onButtonClicked.addListener(function() {
                 window.open("https://twitter.com/i/notifications");
-            })
-            chrome.notifications.create(firstRun);
+                chrome.notifications.clear(notID);
+            });
             latestID = ids[0];
 
         } else if(latestID != ids[0]) {
@@ -67,10 +71,14 @@ function notifications() {
                     }],
                     iconUrl : "icon.png"
                 };
+                var notificationID;
+                chrome.notifications.create(myTweet, function(ID) {
+                    notificationID = ID;
+                });
                 chrome.notifications.onButtonClicked.addListener(function() {
                     window.open("https://twitter.com/i/notifications");
+                    chrome.notifications.clear(notificationID);
                 });
-                chrome.notifications.create(myTweet);
             }
         }
 
