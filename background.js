@@ -1,6 +1,7 @@
 var messages = [];
 var ids = [];
 var latestID;
+
 $(function() {
     notifications();
     setInterval(notifications,2000);
@@ -16,8 +17,8 @@ function notifications() {
         $('body').append(onlyOL);
 
         for(i = 0; i<onlyOL.find('li.stream-item').length;i++) {
-            ids[i] = onlyOL.find('li.stream-item').eq(0).attr('data-item-id');
-            messages[i] = ($(onlyOL).find('li.stream-item').eq(i).find('.stream-item-activity-line').text()).replace(/\n/g, "").trim();
+            ids[i] = onlyOL.find('li.stream-item').eq(i).attr('data-item-id');
+            messages[i] = ($(onlyOL).find('li.stream-item').eq(i).find('div.stream-item-activity-line').text()).replace(/\n/g, '').trim();
         }
 
         if(latestID == ids[0]) {
@@ -45,7 +46,7 @@ function notifications() {
             }
             latestID = ids[0];
         }
-
+        console.log(newTweets);
         if(newTweets.length == 0) {
 
         } else {
@@ -53,8 +54,8 @@ function notifications() {
                 var tweet = newTweets[i];
                 var myTweet = {
                     type : "basic",
-                    title : "Twitter Notifier New notification",
-                    message : "IOAIIOAJIOS" ,
+                    title : "Twitter Notifier! New notification",
+                    message : tweet ,
                     iconUrl : "icon.png"
                 };
 
@@ -62,18 +63,10 @@ function notifications() {
             }
         }
 
-        // console.log(messages);
-        // console.log(ids);
-        console.log(latestID);
-        console.log(newTweets);
+        console.log(messages);
+        console.log(ids);
+        // console.log(latestID);
+        // console.log(newTweets);
         
     });
-}
-
-function callback() {
-    if (chrome.runtime.lastError) {
-        console.log(chrome.runtime.lastError.message);
-    } else {
-        // Tab exists
-    }
 }
